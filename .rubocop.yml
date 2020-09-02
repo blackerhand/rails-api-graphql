@@ -1,0 +1,58 @@
+AllCops:
+  TargetRubyVersion: 2.6.3
+  Exclude:
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'lib/tasks/cucumber.rake'
+    - 'features/**/*'
+    - 'spec/**/*'
+    - 'script/**/*'
+    - 'config/**/*'
+    - 'Capfile'
+    - 'Gemfile'
+    - 'factories/**'
+    - 'app/models/comment.rb'
+    - 'app/policies/**/*'
+
+Metrics/LineLength:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Layout/HashAlignment:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - app/controllers/**/*_grape.rb
+
+Metrics/ClassLength:
+  Enabled: true
+  Exclude:
+    - app/controllers/**/*_grape.rb
+
+Style/RescueModifier:
+  Enabled: false
+
+Style/RegexpLiteral:
+  Enabled: false
+
+Bundler/OrderedGems:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 20
