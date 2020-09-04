@@ -8,4 +8,14 @@ class RailsApiGraphqlSchema < GraphQL::Schema
 
   # Add built-in connections for pagination
   use GraphQL::Pagination::Connections
+  use GraphQL::Execution::Errors
+
+  rescue_from(ActiveRecord::RecordNotFound) do |err, obj, args, ctx, field|
+    raise GraphQL::ExecutionError, "#{field.type.unwrap.graphql_name} not found"
+  end
+
+  def self.type_error(type_err, context)
+
+    # Handle `type_err` in some way
+  end
 end

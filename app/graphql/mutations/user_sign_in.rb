@@ -1,14 +1,16 @@
 module Mutations
   class UserSignIn < BaseMutation
-    # TODO: define return fields
-    # field :post, Types::PostType, null: false
+    null true
 
-    # TODO: define arguments
-    # argument :name, String, required: true
+    field :user, Types::UserType, null: true
 
-    # TODO: define resolve method
-    # def resolve(name:)
-    #   { post: ... }
-    # end
+    def resolve(email:, passwd:)
+      @user = User.find_by(email: email)
+
+      raise SignError, '密码不正确' if @user.nil?
+      raise SignError, '密码不正确' unless @user.authenticate(passwd)
+
+      { user: @user }
+    end
   end
 end

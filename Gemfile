@@ -26,7 +26,10 @@ gem 'jwt', '~> 2.1'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
+
+# config
+gem 'figaro', '~> 1.2'
 
 # GraphQL
 gem 'graphql', '~> 1.11'

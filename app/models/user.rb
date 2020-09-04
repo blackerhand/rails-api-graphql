@@ -19,4 +19,12 @@
 #
 class User < ApplicationRecord
   has_secure_password
+
+  def payload
+    slice(:id)
+  end
+
+  def token
+    Svc::JwtSignature.sign(payload)
+  end
 end
