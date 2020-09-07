@@ -1,0 +1,15 @@
+{
+  "name": "Pai Ming",
+  "schemaPath": "../app/graphql/grape_api_schema.rb",
+  "extensions": {
+    "endpoints": {
+      "Local": {
+        "url": "http://localhost:3000/graphql",
+        "headers": {
+          "user-agent": "Ruby GraphQL"
+        },
+        "introspect": false
+      }
+    }
+  }
+}
