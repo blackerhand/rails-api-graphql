@@ -31,6 +31,7 @@
 
 zh-CN:
   errors:
-    format: "%{attribute}: %{message}"
+    format: "%{attribute}%{message}"
     messages:
-      taken: 不允许重复
+      passwd_error: 密码不正确
+      expected_value_to_not_be_null: 不能为空

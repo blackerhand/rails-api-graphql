@@ -11,11 +11,10 @@ class RailsApiGraphqlSchema < GraphQL::Schema
   use GraphQL::Execution::Errors
 
   rescue_from(ActiveRecord::RecordNotFound) do |err, obj, args, ctx, field|
-    raise GraphQL::ExecutionError, "#{field.type.unwrap.graphql_name} not found"
+    raise NotFoundError, "#{I18n.t("activerecord.models.#{err.model.underscore}")}不存在"
   end
 
-  def self.type_error(type_err, context)
-
-    # Handle `type_err` in some way
+  rescue_from(ActiveRecord::RecordInvalid) do |err, obj, args, ctx, field|
+    raise NotValidError, err.message
   end
 end

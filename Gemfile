@@ -32,7 +32,7 @@ gem 'rack-cors'
 gem 'figaro', '~> 1.2'
 
 # GraphQL
-gem 'graphql', '~> 1.11'
+gem 'graphql', '~> 1.11', require: true
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
