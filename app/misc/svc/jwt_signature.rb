@@ -1,7 +1,5 @@
 module Svc
-  # jwt
   module JwtSignature
-    # error
     class SignError < StandardError
     end
 
