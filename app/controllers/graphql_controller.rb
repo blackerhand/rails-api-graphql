@@ -8,13 +8,12 @@ class GraphqlController < ApplicationController
     variables      = prepare_variables(params[:variables])
     query          = params[:query]
     operation_name = params[:operationName]
-    context        = { current_user: current_user, }
+    context        = { current_user: current_user }
 
     result = RailsApiGraphqlSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue => e
-    raise e unless Rails.env.development?
-    handle_error_in_development e
+    handle_error e
   end
 
   private
@@ -39,10 +38,19 @@ class GraphqlController < ApplicationController
     end
   end
 
-  def handle_error_in_development(e)
+  def handle_error(e)
     logger.error e.message
     logger.error e.backtrace.join("\n")
 
-    render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
+    error_info =
+      case e
+      when Svc::JwtSignature::SignError
+        { i18n_message: '登录失败', code: 401 }
+      else
+        render json: { errors: [{ message: '系统异常, 请稍后重试' }], data: {} }, status: 500 and return unless Rails.env.development?
+      end
+
+    result = { errors: [{ message: e.message, backtrace: e.backtrace, class: e.class.to_s }.merge(error_info || {})], data: {} }
+    render json: result, status: 200
   end
 end
