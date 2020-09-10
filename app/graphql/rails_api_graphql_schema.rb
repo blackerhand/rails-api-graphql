@@ -10,7 +10,6 @@ class RailsApiGraphqlSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
-
   use GraphQL::Guard.new(
     policy_object:  GraphqlPolicy,
     not_authorized: ->(type, field) do
@@ -24,9 +23,5 @@ class RailsApiGraphqlSchema < GraphQL::Schema
 
   rescue_from(ActiveRecord::RecordInvalid) do |err, obj, args, ctx, field|
     raise NotValidError, err.message
-  end
-
-  rescue_from(GraphQL::Guard::NotAuthorizedError) do |err, obj, args, ctx, field|
-    raise UnauthorizedError, err.message
   end
 end

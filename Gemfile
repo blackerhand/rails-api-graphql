@@ -36,7 +36,8 @@ gem 'graphql', '~> 1.11', require: true
 gem 'graphql-guard', '~> 2.0'
 
 gem "graphiql-rails"
-gem "sprockets", "<4"
+gem "sprockets", '< 4'
+gem 'paper_trail', '~> 10.3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
