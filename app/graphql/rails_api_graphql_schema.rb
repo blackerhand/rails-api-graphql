@@ -1,7 +1,4 @@
 class RailsApiGraphqlSchema < GraphQL::Schema
-  mutation(Types::MutationType)
-  query(Types::QueryType)
-
   # Opt in to the new runtime (default in future graphql-ruby versions)
   use GraphQL::Execution::Interpreter
   use GraphQL::Analysis::AST
@@ -9,7 +6,17 @@ class RailsApiGraphqlSchema < GraphQL::Schema
   # Add built-in connections for pagination
   use GraphQL::Pagination::Connections
   use GraphQL::Execution::Errors
-  use GraphQL::Guard.new(policy_object: GraphqlPolicy)
+
+  mutation(Types::MutationType)
+  query(Types::QueryType)
+
+
+  use GraphQL::Guard.new(
+    policy_object:  GraphqlPolicy,
+    not_authorized: ->(type, field) do
+      ForbiddenError.new("不允许访问 #{type}.#{field}")
+    end
+  )
 
   rescue_from(ActiveRecord::RecordNotFound) do |err, obj, args, ctx, field|
     raise NotFoundError, "#{I18n.t("activerecord.models.#{err.model.underscore}")}不存在"

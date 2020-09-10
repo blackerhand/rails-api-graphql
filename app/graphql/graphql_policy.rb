@@ -1,7 +1,7 @@
 class GraphqlPolicy
   RULES = {
     Types::QueryType => {
-      current_user: ->(obj, args, ctx) { ctx[:current_user].present? }
+      currentUser: ->(obj, args, ctx) { ctx[:current_user].present? }
     }
   }
 
