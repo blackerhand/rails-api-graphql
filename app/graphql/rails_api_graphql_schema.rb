@@ -9,7 +9,7 @@ class RailsApiGraphqlSchema < GraphQL::Schema
   # Add built-in connections for pagination
   use GraphQL::Pagination::Connections
   use GraphQL::Execution::Errors
-  use GraphQL::Guard.new
+  use GraphQL::Guard.new(policy_object: GraphqlPolicy)
 
   rescue_from(ActiveRecord::RecordNotFound) do |err, obj, args, ctx, field|
     raise NotFoundError, "#{I18n.t("activerecord.models.#{err.model.underscore}")}不存在"
