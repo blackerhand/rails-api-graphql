@@ -1,6 +1,6 @@
 module Types
   class QueryType < Types::BaseObject
-    field :current_user, Types::UserType, null: false, description: '当前登录用户'
+    field :current_user, Models::UserType, null: false, description: '当前登录用户'
     add_field(GraphQL::Types::Relay::NodeField)
 
     def current_user

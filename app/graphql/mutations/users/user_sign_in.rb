@@ -1,6 +1,6 @@
 module Mutations
   class UserSignIn < BaseMutation
-    field :user, Types::UserType, null: true
+    field :user, Models::UserType, null: true
 
     def resolve(email:, passwd:)
       @user = User.find_by!(email: email)

@@ -81,5 +81,3 @@ test:
 production:
   <<: *default
   database: rails_api_graphql_production
-  username: rails_api_graphql
-  password: <%= ENV['RAILS_API_GRAPHQL_DATABASE_PASSWORD'] %>
