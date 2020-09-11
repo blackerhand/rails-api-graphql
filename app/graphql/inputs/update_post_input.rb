@@ -6,7 +6,7 @@ module Inputs
 
     description "更新文章"
 
-    argument :post_id, ID, required: true, loads: Types::PostType
+    argument :node_id, ID, required: true, loads: Types::PostType
     argument :title, String, required: false
     argument :desc, String, required: false
   end

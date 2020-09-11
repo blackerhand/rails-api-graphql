@@ -4,10 +4,10 @@ module Mutations
 
     field :post, Types::PostType, null: true
 
-    def resolve(post:, title:, desc:)
-      post.update!(title: title, desc: desc)
+    def resolve(node:, title:, desc:)
+      node.update!(title: title, desc: desc)
 
-      { post: post }
+      { post: node }
     end
   end
 end

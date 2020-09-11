@@ -5,7 +5,7 @@ class GraphqlPolicy
     },
     Types::MutationType => {
       createPost: ->(obj, args, ctx) { ctx[:current_user].present? },
-      updatePost: ->(obj, args, ctx) { ctx[:a] = 1 || true }
+      updatePost: ->(obj, args, ctx) { args[:node].owner == ctx[:current_user] }
     }
   }
 
