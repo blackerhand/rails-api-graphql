@@ -11,5 +11,9 @@ module Types
     field :create_post, mutation: Mutations::CreatePost do
       argument :input, Inputs::CreatePostInput, required: true
     end
+
+    field :update_post, mutation: Mutations::UpdatePost do
+      argument :input, Inputs::UpdatePostInput, required: true
+    end
   end
 end

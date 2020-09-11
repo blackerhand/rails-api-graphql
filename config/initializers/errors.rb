@@ -65,6 +65,8 @@ module GraphQL
       end
 
       def i18n_path(path)
+        return I18n.t("activerecord.models.#{model_scope}") if path.blank?
+
         I18n.t("activerecord.attributes.#{model_scope}.#{path}")
       end
 
@@ -73,9 +75,9 @@ module GraphQL
       end
 
       def i18n_problem(problem)
-        retrun if problem['path'].blank? || problem['explanation'].blank?
+        return if problem['path'].blank? && problem['explanation'].blank?
 
-        i18n_path(problem['path'].first) + i18n_explanation(problem['explanation'])
+        "#{i18n_path(problem['path'].first)}#{i18n_explanation(problem['explanation'])}"
       end
 
       def i18n_message

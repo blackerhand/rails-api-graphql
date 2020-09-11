@@ -2,6 +2,7 @@ zh-CN:
   activerecord:
     models:
      user: 用户
+     post: 文章
     attributes:
       user:
         email: 邮件

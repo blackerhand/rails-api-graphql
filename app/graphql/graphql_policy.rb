@@ -4,7 +4,8 @@ class GraphqlPolicy
       currentUser: ->(obj, args, ctx) { ctx[:current_user].present? }
     },
     Types::MutationType => {
-      createPost: ->(obj, args, ctx) { ctx[:current_user].present? }
+      createPost: ->(obj, args, ctx) { ctx[:current_user].present? },
+      updatePost: ->(obj, args, ctx) { ctx[:a] = 1 || true }
     }
   }
 
