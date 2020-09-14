@@ -1,19 +1,13 @@
 module Types
   class MutationType < Types::BaseObject
-    field :user_sign_in, mutation: Mutations::User::SignIn do
-      argument :input, Inputs::User::SignIn, required: true
-    end
+    include SmartMutation
 
-    field :user_sign_up, mutation: Mutations::User::SignUp do
-      argument :input, Inputs::User::SignUp, required: true
-    end
+    # users
+    smart_mutation :'user/sign_in'
+    smart_mutation :'user/sign_up'
 
-    field :post_create, mutation: Mutations::Post::Create do
-      argument :input, Inputs::Post::Create, required: true
-    end
-
-    field :post_update, mutation: Mutations::Post::Update do
-      argument :input, Inputs::Post::Update, required: true
-    end
+    # posts
+    smart_mutation :'post/create'
+    smart_mutation :'post/update'
   end
 end

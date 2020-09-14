@@ -1,11 +1,7 @@
 module Inputs
   module Post
-    class Update < Types::BaseInputObject
-      def self.model_scope
-        :post
-      end
-
-      description '更新文章'
+    class Update < Inputs::BaseInputObject
+      description '更新文章参数'
 
       argument :node_id, ID, required: true, loads: Models::PostType
       argument :title, String, required: false

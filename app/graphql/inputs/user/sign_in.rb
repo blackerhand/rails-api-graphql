@@ -1,10 +1,6 @@
 module Inputs
   module User
-    class SignIn < Types::BaseInputObject
-      def self.model_scope
-        :user
-      end
-
+    class SignIn < Inputs::BaseInputObject
       description '登录参数'
 
       argument :email, String, required: true

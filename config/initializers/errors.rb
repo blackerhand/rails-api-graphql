@@ -56,18 +56,14 @@ module GraphQL
         ast_node.type.of_type.name
       end
 
-      def node_class
-        "Inputs::#{node_name}".safe_constantize
-      end
-
-      def model_scope
-        "Inputs::#{node_name}".safe_constantize.try(:model_scope)
+      def model_class
+        node_name.underscore.split('_').first
       end
 
       def i18n_path(path)
-        return I18n.t("activerecord.models.#{model_scope}") if path.blank?
+        return I18n.t("activerecord.models.#{model_class}") if path.blank?
 
-        I18n.t("activerecord.attributes.#{model_scope}.#{path}")
+        I18n.t("activerecord.attributes.#{model_class}.#{path}")
       end
 
       def i18n_explanation(explanation)
