@@ -1,19 +1,19 @@
 module Types
   class MutationType < Types::BaseObject
-    field :user_sign_in, mutation: Mutations::UserSignIn do
-      argument :input, Inputs::Users::UserSignInInput, required: true
+    field :user_sign_in, mutation: Mutations::User::SignIn do
+      argument :input, Inputs::User::SignIn, required: true
     end
 
-    field :user_sign_up, mutation: Mutations::UserSignUp do
-      argument :input, Inputs::Users::UserSignUpInput, required: true
+    field :user_sign_up, mutation: Mutations::User::SignUp do
+      argument :input, Inputs::User::SignUp, required: true
     end
 
-    field :create_post, mutation: Mutations::CreatePost do
-      argument :input, Inputs::Posts::PostCreateInput, required: true
+    field :post_create, mutation: Mutations::Post::Create do
+      argument :input, Inputs::Post::Create, required: true
     end
 
-    field :update_post, mutation: Mutations::UpdatePost do
-      argument :input, Inputs::Posts::PostUpdateInput, required: true
+    field :post_update, mutation: Mutations::Post::Update do
+      argument :input, Inputs::Post::Update, required: true
     end
   end
 end

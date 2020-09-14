@@ -1,6 +1,6 @@
 module Inputs
-  module Users
-    class UserSignInInput < Types::BaseInputObject
+  module User
+    class SignIn < Types::BaseInputObject
       def self.model_scope
         :user
       end

@@ -1,6 +1,6 @@
 module Inputs
-  module Posts
-    class PostCreateInput < Types::BaseInputObject
+  module Post
+    class Create < Types::BaseInputObject
       def self.model_scope
         :post
       end

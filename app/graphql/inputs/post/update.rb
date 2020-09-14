@@ -1,6 +1,6 @@
 module Inputs
-  module Posts
-    class PostUpdateInput < Types::BaseInputObject
+  module Post
+    class Update < Types::BaseInputObject
       def self.model_scope
         :post
       end
