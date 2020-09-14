@@ -11,6 +11,8 @@ module Models
     end
 
     def i18n_desc
+      return 'ID' if name == 'id'
+
       I18n.t("activerecord.attributes.#{model_class}.#{name}")
     end
   end

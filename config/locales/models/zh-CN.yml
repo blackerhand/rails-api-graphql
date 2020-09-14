@@ -15,6 +15,7 @@ zh-CN:
         email: 邮件
         passwd: 密码
         nickname: 昵称
+        token: 登录密钥
       post:
         title: 标题
         desc: 描述
