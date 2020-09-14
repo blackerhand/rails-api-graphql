@@ -4,7 +4,7 @@ module Mutations
       field :post, Models::PostType, null: true
 
       def resolve(title:, desc:)
-        @post = Post.create!(title: title, desc: desc)
+        @post = ::Post.create!(title: title, desc: desc)
         { post: @post }
       end
     end

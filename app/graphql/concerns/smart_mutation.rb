@@ -17,7 +17,6 @@ module SmartMutation
       end
     end
 
-
     def self.description(new_description = nil)
       super || i18n_desc
     end

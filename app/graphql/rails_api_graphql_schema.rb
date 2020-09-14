@@ -35,6 +35,6 @@ class RailsApiGraphqlSchema < GraphQL::Schema
   end
 
   def self.resolve_type(_type, obj, _ctx)
-    "Types::#{obj.class}Type".safe_constantize || raise("Unexpected object: #{obj}")
+    "Models::#{obj.class}Type".safe_constantize || raise("Unexpected object: #{obj}")
   end
 end
