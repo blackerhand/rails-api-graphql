@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 module Disable
   extend ActiveSupport::Concern
 
@@ -44,3 +45,4 @@ module Disable
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

@@ -6,7 +6,7 @@ module Mutations
     object_class Types::BaseObject
 
     def self.default_graphql_name
-      self.name.to_s.sub("Mutations", "").gsub("::", "").camelize(:lower)
+      name.to_s.sub('Mutations', '').gsub('::', '').camelize(:lower)
     end
   end
 end

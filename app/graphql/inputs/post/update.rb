@@ -5,7 +5,7 @@ module Inputs
         :post
       end
 
-      description "更新文章"
+      description '更新文章'
 
       argument :node_id, ID, required: true, loads: Models::PostType
       argument :title, String, required: false

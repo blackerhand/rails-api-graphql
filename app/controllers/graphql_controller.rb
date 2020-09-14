@@ -12,7 +12,7 @@ class GraphqlController < ApplicationController
 
     result = RailsApiGraphqlSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
-  rescue => e
+  rescue StandardError => e
     handle_error e
   end
 
@@ -38,19 +38,19 @@ class GraphqlController < ApplicationController
     end
   end
 
-  def handle_error(e)
-    logger.error e.message
-    logger.error e.backtrace.join("\n")
+  def handle_error(err)
+    logger.error err.message
+    logger.error err.backtrace.join("\n")
 
     error_info =
-      case e
+      case err
       when Svc::JwtSignature::SignError
         { i18n_message: '登录失败', code: 401 }
       else
         render json: { errors: [{ message: '系统异常, 请稍后重试' }], data: {} }, status: 500 and return unless Rails.env.development?
       end
 
-    result = { errors: [{ message: e.message, backtrace: e.backtrace, class: e.class.to_s }.merge(error_info || {})], data: {} }
+    result = { errors: [{ message: err.message, backtrace: err.backtrace, class: err.class.to_s }.merge(error_info || {})], data: {} }
     render json: result, status: 200
   end
 end

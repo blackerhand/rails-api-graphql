@@ -5,7 +5,7 @@ module Inputs
         :post
       end
 
-      description "创建文章"
+      description '创建文章'
       argument :title, String, required: true
       argument :desc, String, required: false
     end

@@ -5,7 +5,7 @@ module Inputs
         :user
       end
 
-      description "登录参数"
+      description '登录参数'
 
       argument :email, String, required: true
       argument :passwd, String, required: true
