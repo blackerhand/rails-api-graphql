@@ -5,5 +5,6 @@ module Types
 
     smart_resolver :'user/current'
     smart_resolver :'user/detail'
+    smart_resolver :'user/list'
   end
 end

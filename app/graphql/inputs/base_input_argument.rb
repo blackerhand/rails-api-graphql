@@ -5,7 +5,7 @@ module Inputs
     end
 
     def model_class
-      self.owner.to_s.split('::')[1].underscore
+      owner.to_s.split('::')[1].underscore
     end
 
     def i18n_desc

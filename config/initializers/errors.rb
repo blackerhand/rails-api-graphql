@@ -1,3 +1,134 @@
+module GraphQL
+  class ExecutionError
+    include MessageHelper
+
+    attr_accessor :field_name, :model_name, :format
+
+    def code
+      406
+    end
+
+    alias_method :old_to_h, :to_h
+
+    def to_h
+      old_to_h.merge(code:         code,
+                     i18n_message: i18n_message,
+                     field_name:   field_name,
+                     model_name:   model_name,
+                     class:        self.class.to_s)
+    end
+
+    def default_format
+      self.class.to_s.underscore
+    end
+
+    def format_field_name(field_name)
+      return if field_name.blank?
+
+      field_name.to_s.underscore
+    end
+
+    def format_model_name(model_name)
+      return if model_name.blank?
+
+      model_name.split('::').last.gsub(/(Type|Input)/, '').underscore
+    end
+
+    def i18n_name
+      return if model_name.blank?
+
+      if model_name.match(/(query|mutation)/)
+        i18n_graphql_name(field_name)
+      else
+        i18n_activerecord_name(model_name, field_name)
+      end
+    end
+
+    def i18n_message
+      return if format.nil?
+
+      i18n_explanation(format, field: i18n_name)
+    end
+  end
+
+  class Query
+    class VariableValidationError
+      def i18n_problem(problem)
+        return if problem['path'].blank? && problem['explanation'].blank?
+
+        path_name = problem['path'].map { |path| i18n_activerecord(model_name, path) }
+        problem.merge!(i18n_path: path_name)
+
+        explanation_name = i18n_explanation(problem['explanation'])
+        problem.merge!(i18n_explanation: explanation_name)
+
+        "#{path_name.join(',')} #{explanation_name}"
+      end
+
+      def i18n_message
+        @model_name ||= ast_node.type.of_type.name.split('_').first.underscore
+        return if @model_name.blank?
+
+        validation_result.problems.map { |problem| i18n_problem(problem) }.join(',')
+      end
+    end
+  end
+end
+
+class I18nMessage < GraphQL::ExecutionError
+  def initialize(message, ast_node: nil, options: nil, extensions: nil)
+    if message.is_a?(Array)
+      @other_message = message[1].dup
+
+      @field_name = format_field_name(message[1].delete(:field_name))
+      @model_name = format_model_name(message[1].delete(:model_name))
+      @format     = message[1].delete(:format) || default_format
+
+      message = message[0]
+    end
+
+    super
+  end
+end
+
+class UnauthorizedError < I18nMessage
+  def code
+    401
+  end
+end
+
+class SignError < I18nMessage; end
+
+class ForbiddenError < I18nMessage
+  def code
+    403
+  end
+end
+
+class NotFoundError < I18nMessage
+  def code
+    404
+  end
+end
+
+class NotValidError < I18nMessage
+  def code
+    404
+  end
+end
+
+class NotAllowError < I18nMessage
+  def code
+    409
+  end
+end
+
+class OtherError < I18nMessage
+  def code
+    422
+  end
+end
+
 # class PermissionDeniedError < StandardError; end
 #
 # class RecordStateError < StandardError; end
@@ -10,89 +141,3 @@
 #
 # class SearchError < StandardError; end
 #
-
-class UnauthorizedError < GraphQL::ExecutionError
-  def code
-    401
-  end
-end
-
-class SignError < UnauthorizedError; end
-
-class ForbiddenError < GraphQL::ExecutionError
-  def code
-    403
-  end
-end
-
-class NotFoundError < GraphQL::ExecutionError
-  def code
-    404
-  end
-end
-
-class NotValidError < GraphQL::ExecutionError
-  def code
-    404
-  end
-end
-
-class NotAllowError < GraphQL::ExecutionError
-  def code
-    409
-  end
-end
-
-class OtherError < GraphQL::ExecutionError
-  def code
-    422
-  end
-end
-
-module GraphQL
-  class Query
-    class VariableValidationError
-      def node_name
-        ast_node.type.of_type.name
-      end
-
-      def model_class
-        node_name.underscore.split('_').first
-      end
-
-      def i18n_path(path)
-        return I18n.t("activerecord.models.#{model_class}") if path.blank?
-
-        I18n.t("activerecord.attributes.#{model_class}.#{path}")
-      end
-
-      def i18n_explanation(explanation)
-        I18n.t("errors.messages.#{explanation.gsub(' ', '_').downcase}")
-      end
-
-      def i18n_problem(problem)
-        return if problem['path'].blank? && problem['explanation'].blank?
-
-        "#{i18n_path(problem['path'].first)}#{i18n_explanation(problem['explanation'])}"
-      end
-
-      def i18n_message
-        validation_result.problems.map { |problem| i18n_problem(problem) }.join(',')
-      end
-    end
-  end
-
-  class ExecutionError
-    alias_method :old_to_h, :to_h
-
-    def i18n_message
-      I18n.t("errors.messages.#{message}", default: message)
-    end
-
-    def to_h
-      old_to_h.merge(code:         code,
-                     i18n_message: i18n_message,
-                     class:        self.class.to_s)
-    end
-  end
-end

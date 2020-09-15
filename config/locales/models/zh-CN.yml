@@ -1,12 +1,10 @@
 zh-CN:
   graphql:
-    user:
-      sign_up: 用户注册
-      sign_in: 用户登录
-      current: 当前登录用户
-    post:
-      create: 创建文章
-      update: 修改文章
+    user_sign_up: 用户注册
+    user_sign_in: 用户登录
+    user_current: 当前登录用户
+    post_create: 创建文章
+    post_update: 修改文章
   activerecord:
     models:
       user: 用户

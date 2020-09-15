@@ -35,3 +35,5 @@ zh-CN:
     messages:
       passwd_error: 密码不正确
       expected_value_to_not_be_null: 不能为空
+      not_valid_error: "不允许访问%{field}"
+      not_found_error: "查询不到对应的%{field}"

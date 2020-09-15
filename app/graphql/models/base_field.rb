@@ -7,7 +7,7 @@ module Models
     end
 
     def model_class
-      self.owner.to_s.split('::')[1].gsub('Type', '').underscore
+      owner.to_s.split('::')[1].gsub('Type', '').underscore
     end
 
     def i18n_desc

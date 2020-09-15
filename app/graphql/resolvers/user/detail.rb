@@ -6,7 +6,7 @@ module Resolvers
       argument :node_id, ID, required: true, loads: Models::UserType
 
       def resolve(node:)
-        context[:current_user]
+        node
       end
     end
   end

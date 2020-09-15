@@ -3,7 +3,7 @@ module Inputs
     argument_class Inputs::BaseInputArgument
 
     def self.default_graphql_name
-      "#{name.sub('Inputs', '').gsub('::', '')}Input"
+      "#{name.sub('Inputs::', '').gsub('::', '_')}Input"
     end
 
     def self.description(new_description = nil)

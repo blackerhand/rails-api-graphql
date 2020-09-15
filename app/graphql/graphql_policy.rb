@@ -1,12 +1,15 @@
 class GraphqlPolicy
   RULES = {
-    Types::QueryType => {
-      currentUser: ->(_obj, _args, ctx) { ctx[:current_user].present? }
+    Types::QueryType    => {
+      userCurrent: ->(_obj, _args, ctx) { ctx[:current_user].present? }
     },
     Types::MutationType => {
-      createPost: ->(_obj, _args, ctx) { ctx[:current_user].present? },
-      updatePost: ->(_obj, args, ctx) { args[:node].owner == ctx[:current_user] }
-    }
+      postCreate: ->(_obj, _args, ctx) { ctx[:current_user].present? },
+      postUpdate: ->(_obj, args, ctx) { args[:node].owner == ctx[:current_user] }
+    },
+    Models::UserType    => {
+      token: ->(obj, _args, ctx) { obj.try(:object) == ctx[:current_user] }
+    },
   }.freeze
 
   def self.guard(type, field)

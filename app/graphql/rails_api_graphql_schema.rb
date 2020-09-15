@@ -1,5 +1,6 @@
 class RailsApiGraphqlSchema < GraphQL::Schema
-  # Opt in to the new runtime (default in future graphql-ruby versions)
+  extend MessageHelper
+
   use GraphQL::Execution::Interpreter
   use GraphQL::Analysis::AST
 
@@ -10,20 +11,7 @@ class RailsApiGraphqlSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
-  use GraphQL::Guard.new(
-    policy_object:  GraphqlPolicy,
-    not_authorized: lambda do |type, field|
-      ForbiddenError.new("不允许访问 #{type}.#{field}")
-    end
-  )
-
-  rescue_from(ActiveRecord::RecordNotFound) do |err, _obj, _args, _ctx, _field|
-    raise NotFoundError, "#{I18n.t("activerecord.models.#{err.model.underscore}")}不存在"
-  end
-
-  rescue_from(ActiveRecord::RecordInvalid) do |err, _obj, _args, _ctx, _field|
-    raise NotValidError, err.message
-  end
+  use GraphQL::Guard.new(policy_object: GraphqlPolicy)
 
   def self.id_from_object(object, type_definition, _query_ctx)
     GraphQL::Schema::UniqueWithinType.encode(type_definition.graphql_name, object.id)
@@ -36,5 +24,17 @@ class RailsApiGraphqlSchema < GraphQL::Schema
 
   def self.resolve_type(_type, obj, _ctx)
     "Models::#{obj.class}Type".safe_constantize || raise("Unexpected object: #{obj}")
+  end
+
+  rescue_from(ActiveRecord::RecordNotFound) do |err, _obj, _args, _ctx, _field|
+    raise NotFoundError, [err.message, { model_name: err.model }]
+  end
+
+  rescue_from(ActiveRecord::RecordInvalid) do |err, _obj, _args, _ctx, _field|
+    raise NotValidError, err.message
+  end
+
+  rescue_from(GraphQL::Guard::NotAuthorizedError) do |err, obj, args, ctx, field|
+    raise NotValidError, build_message(err, obj, args, ctx, field)
   end
 end
