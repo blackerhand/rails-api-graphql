@@ -1,10 +1,9 @@
 module Types
   class QueryType < Types::BaseObject
-    field :current_user, Models::UserType, null: false, description: '当前登录用户'
+    include SmartResolver
     add_field(GraphQL::Types::Relay::NodeField)
 
-    def current_user
-      User.first
-    end
+    smart_resolver :'user/current'
+    smart_resolver :'user/detail'
   end
 end

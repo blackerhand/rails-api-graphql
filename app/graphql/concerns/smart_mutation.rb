@@ -1,4 +1,3 @@
-# helpers for sign grape
 module SmartMutation
   extend ActiveSupport::Concern
 
@@ -7,13 +6,13 @@ module SmartMutation
       mutation_name = field_name.to_s.gsub('/', '_')
       class_scope   = field_name.to_s.classify
 
-      mutation_class = opts.delete(:mutation_class) || "Mutations::#{class_scope}".constantize
-      input_class    = opts.delete(:input_class) || "Inputs::#{class_scope}".constantize
-      required       = opts.delete(:required) || true
-      desc           = opts.delete(:desc) || i18n_desc(field_name)
+      mutation = opts.delete(:mutation) || "Mutations::#{class_scope}".constantize
+      input    = opts.delete(:input) || "Inputs::#{class_scope}".constantize
+      required = opts.delete(:required) || true
+      desc     = opts.delete(:desc) || i18n_desc(field_name)
 
-      field mutation_name, mutation: mutation_class, description: desc do
-        argument :input, input_class, required: required
+      field mutation_name, mutation: mutation, description: desc do
+        argument :input, input, required: required
       end
     end
 

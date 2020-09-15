@@ -1,6 +1,6 @@
 module Models
   class BaseField < GraphQL::Schema::Field
-    argument_class Models::BaseModelArgument
+    argument_class Types::BaseArgument
 
     def description(text = nil)
       super || i18n_desc

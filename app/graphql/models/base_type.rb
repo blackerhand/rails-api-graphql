@@ -1,8 +1,7 @@
 module Models
   class BaseType < GraphQL::Schema::Object
-    field_class Models::BaseField
-
     implements GraphQL::Types::Relay::Node
+    field_class Models::BaseField
 
     def self.description(new_description = nil)
       super || i18n_desc
