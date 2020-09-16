@@ -1,5 +1,5 @@
 module Models
-  class PostType < Models::BaseType
+  class PostType < Types::BaseObject
     graphql_name 'Post'
 
     global_id_field :id

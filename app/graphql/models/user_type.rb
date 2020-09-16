@@ -1,5 +1,5 @@
 module Models
-  class UserType < Models::BaseType
+  class UserType < Types::BaseObject
     graphql_name 'User'
 
     global_id_field :id
