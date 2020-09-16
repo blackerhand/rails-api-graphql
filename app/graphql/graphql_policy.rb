@@ -1,7 +1,8 @@
 class GraphqlPolicy
   RULES = {
     Types::QueryType    => {
-      userCurrent: ->(_obj, _args, ctx) { ctx[:current_user].present? }
+      userCurrent: ->(_obj, _args, ctx) { ctx[:current_user].present? },
+      userList:    ->(_obj, _args, ctx) { ctx[:current_user].present? }
     },
     Types::MutationType => {
       postCreate: ->(_obj, _args, ctx) { ctx[:current_user].present? },

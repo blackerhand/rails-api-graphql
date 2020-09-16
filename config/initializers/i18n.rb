@@ -17,10 +17,10 @@ module I18n
     t("errors.messages.#{explanation.underscore.gsub(' ', '_')}", opts)
   end
 
-  def t_graphql(field)
+  def t_graphql(field, opts = {})
     return if field.blank?
 
-    t("graphql.#{field}")
+    t("graphql.#{field}", opts)
   end
 
   def tran_model_to_activerecord(model)
@@ -36,16 +36,22 @@ module I18n
     attributes = attributes.to_s
 
     return if model.blank?
-    return unless model.start_with?(/(Mutations::|Inputs::|Models::|Resolvers::)/)
     return 'ID' if attributes == 'id' || attributes == 'nodeId'
 
+    unless model.start_with?(/(Mutations::|Inputs::|Models::|Resolvers::)/)
+      model      = model.underscore
+      attributes = nil if model == attributes
+
+      return t_activerecord(model, attributes, default: nil)
+    end
+
     if model.start_with?(/(Mutations::|Inputs::|Resolvers::)/) && attributes.blank?
-      t_graphql(tran_model_to_graphql(model))
+      t_graphql(tran_model_to_graphql(model), opts)
     else
       model      = tran_model_to_activerecord(model)
       attributes = nil if model == attributes
 
-      t_activerecord(model, attributes)
+      t_activerecord(model, attributes, opts)
     end
   end
 end

@@ -20,32 +20,11 @@ module GraphQL
       self.class.to_s.underscore
     end
 
-    def format_field_name(field_name)
-      return if field_name.blank?
-
-      field_name.to_s.underscore
-    end
-
-    def format_model_name(model_name)
-      return if model_name.blank?
-
-      model_name.split('::').last.gsub(/(Type|Input)/, '').underscore
-    end
-
-    def i18n_name
-      return if model_name.blank?
-
-      if model_name.match(/(query|mutation)/)
-        I18n.t_graphql(field_name)
-      else
-        I18n.t_activerecord(model_name, field_name)
-      end
-    end
-
     def i18n_message
       return if format.nil?
 
-      I18n.t_explanation(format, field: i18n_name)
+      field = I18n.t_smart(model_name, field_name)
+      I18n.t_explanation(format, field: field)
     end
   end
 
@@ -78,8 +57,8 @@ class I18nMessage < GraphQL::ExecutionError
     if message.is_a?(Array)
       @other_message = message[1].dup
 
-      @field_name = format_field_name(message[1].delete(:field_name))
-      @model_name = format_model_name(message[1].delete(:model_name))
+      @field_name = message[1].delete(:field_name).try(:to_s)
+      @model_name = message[1].delete(:model_name).try(:to_s)
       @format     = message[1].delete(:format) || default_format
 
       message = message[0]

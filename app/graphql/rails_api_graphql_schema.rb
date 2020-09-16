@@ -35,6 +35,12 @@ class RailsApiGraphqlSchema < GraphQL::Schema
   end
 
   rescue_from(GraphQL::Guard::NotAuthorizedError) do |err, obj, args, ctx, field|
-    raise NotValidError, build_message(err, obj, args, ctx, field)
+    options = if field.owner.name.start_with?('Types::')
+                { model_name: field.resolver }
+              else
+                { model_name: field.owner, field_name: field.name }
+              end
+
+    raise NotValidError, [err.message, options]
   end
 end
