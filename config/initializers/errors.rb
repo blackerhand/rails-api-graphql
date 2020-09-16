@@ -1,7 +1,5 @@
 module GraphQL
   class ExecutionError
-    include MessageHelper
-
     attr_accessor :field_name, :model_name, :format
 
     def code
@@ -38,16 +36,16 @@ module GraphQL
       return if model_name.blank?
 
       if model_name.match(/(query|mutation)/)
-        i18n_graphql_name(field_name)
+        I18n.t_graphql(field_name)
       else
-        i18n_activerecord_name(model_name, field_name)
+        I18n.t_activerecord(model_name, field_name)
       end
     end
 
     def i18n_message
       return if format.nil?
 
-      i18n_explanation(format, field: i18n_name)
+      I18n.t_explanation(format, field: i18n_name)
     end
   end
 
@@ -56,10 +54,10 @@ module GraphQL
       def i18n_problem(problem)
         return if problem['path'].blank? && problem['explanation'].blank?
 
-        path_name = problem['path'].map { |path| i18n_activerecord(model_name, path) }
+        path_name = problem['path'].map { |path| I18n.t_activerecord(model_name, path) }
         problem.merge!(i18n_path: path_name)
 
-        explanation_name = i18n_explanation(problem['explanation'])
+        explanation_name = I18n.t_explanation(problem['explanation'])
         problem.merge!(i18n_explanation: explanation_name)
 
         "#{path_name.join(',')} #{explanation_name}"

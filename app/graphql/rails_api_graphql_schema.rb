@@ -1,5 +1,5 @@
 class RailsApiGraphqlSchema < GraphQL::Schema
-  extend MessageHelper
+  extend ErrorsHelper
 
   use GraphQL::Execution::Interpreter
   use GraphQL::Analysis::AST
