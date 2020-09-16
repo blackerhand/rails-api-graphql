@@ -75,11 +75,11 @@ task :gen_pdf do
     size_x = 535
     size_y = 700
 
-    image_dir = Rails.root.join('lib', 'tasks', 'images')
+    image_dir    = Rails.root.join('lib', 'tasks', 'images')
+    outline_meta = []
 
     Dir.new(image_dir).select { |f| f.match(/(png|jpg)\z/) }.sort.each_with_index do |file, i|
       bounding_box([0, cursor - 10], width: size_x, height: size_y) do
-
         image image_dir.join(file),
               fit:      [size_x, size_y],
               position: :center, vposition: :center
@@ -87,11 +87,137 @@ task :gen_pdf do
         stroke_bounds if i == 0
       end
 
-      outline.define do
-        page title: file, destination: (i + 1)
+
+      page_number = i + 1
+      sections    = file.gsub('*', '').split('.')[0].split('_')[1..-1]
+
+      sections.each_with_index do |se, i|
+        if i == 0
+          next if se.blank?
+
+          outline_meta.push({
+                              name: se,
+                              to:   page_number
+                            })
+        elsif i == 1
+          next if se.blank?
+
+          outline_meta.last[:son] ||= []
+          outline_meta.last[:son].push({
+                                         name: se,
+                                         to:   page_number
+                                       })
+        else
+          next if se.blank?
+
+          outline_meta.last[:son].last[:son] ||= []
+          outline_meta.last[:son].last[:son].push({
+                                                    name: se,
+                                                    to:   page_number
+                                                  })
+        end
       end
 
-      start_new_page if i + 1 != Dir.new(image_dir).select { |f| f.match(/(png|jpg)\z/) }.length
+      start_new_page if page_number != Dir.new(image_dir).select { |f| f.match(/(png|jpg)\z/) }.length
+    end
+
+
+    # outline.define do
+    #   page title: file, destination: (i + 1)
+    # end
+
+
+    # outline_meta = [
+    #   { name: '第一部',
+    #     to:   1,
+    #     son:  [
+    #             {
+    #               name: '第一章',
+    #               to:   1,
+    #               son:  [
+    #                       {
+    #                         name: '第一节',
+    #                         to:   1,
+    #                       },
+    #                       {
+    #                         name: '第二节',
+    #                         to:   2,
+    #                       }
+    #                     ],
+    #
+    #             },
+    #             {
+    #               name: '第二章',
+    #               to:   3,
+    #             },
+    #             {
+    #               name: '第三章',
+    #               to:   4,
+    #               son:  [
+    #                       {
+    #                         name: '第一节',
+    #                         to:   4,
+    #                       }
+    #                     ]
+    #             },
+    #           ]
+    #   },
+    #   {
+    #     name: '第二部',
+    #     to:   5,
+    #     son:  [
+    #             {
+    #               name: '第一章',
+    #               to:   6,
+    #               son:  [
+    #                       {
+    #                         name: '第一节',
+    #                         to:   6,
+    #                       },
+    #                       {
+    #                         name: '第二节',
+    #                         to:   7,
+    #                       }
+    #                     ],
+    #
+    #             },
+    #           ]
+    #   },
+    # ]
+
+    outline.define do
+      outline_meta.each do |ele|
+        if ele[:son].blank?
+          page title: ele[:name], destination: ele[:to]
+        else
+          section(ele[:name], destination: ele[:to]) do
+            ele[:son].each do |sele|
+              if sele[:son].blank?
+                page title: sele[:name], destination: sele[:to]
+              else
+                section(sele[:name], destination: sele[:to]) do
+                  sele[:son].each do |ssele|
+                    page title: ssele[:name], destination: ssele[:to]
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+
+      # section('Section 1', destination: 1) do
+      #   page title: 'Page 2', destination: 1
+      #   page title: 'Page 3', destination: 3
+      # end
+      #
+      # section('Section 2', destination: 4) do
+      #   page title: 'Page 5', destination: 5
+      #
+      #   section('Subsection 2.1', destination: 6, closed: true) do
+      #     page title: 'Page 7', destination: 7
+      #   end
+      # end
     end
 
     # # First we create 10 pages just to have something to link to
@@ -105,8 +231,8 @@ task :gen_pdf do
     #   page title: '第三页', destination: 3
     # end
 
-    number_pages '第 <page> 页/ 共 <total> 页', {
-      at:    [bounds.right - 150, 0],
+    number_pages '第 <page> 页', {
+      at:    [bounds.right - 415, -5],
       width: 150,
       align: :right,
     }
