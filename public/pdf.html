@@ -12,8 +12,15 @@
     <h2> 功能说明: 根据选择的图片, 自动生成 pdf, 包含页码和目录</h2>
   </div>
   
+  <div>
+   <h4> 第一步: 将<a href="https://www.pdf2go.com/zh/pdf-to-jpg">PDF 转换为图片</a></h4>
+  </div>
+  
+  <hr>
+  
   <form action="/pdf/uploads" method="post" enctype="multipart/form-data">
     <div>
+      <h4>第二步:</h4>
       <ul>
         <li> 先点击选择图片文件(可以多选) </li>
         <li> 点击生成 pdf </li>
@@ -22,7 +29,6 @@
       
     </div>
     <input type="file" multiple name="file[]">
-    <br>
     <button type="submit">生成 pdf </button>
   </form>
   
@@ -103,9 +109,12 @@
   }
 
   input, button {
-    margin: 30px;
+    margin: 10px 20px;
   }
 
+  input {
+    margin-top: 30px;
+  }
   .ul_ex li {
     margin-bottom: 10px;
   }
