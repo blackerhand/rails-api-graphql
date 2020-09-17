@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <div class="desc">
+    <h2> 功能说明: </h2>
+    
+    <ul>
+      <li>可以选择多个文件, 仅支持 png/jpeg 格式图片</li>
+      <li>根据选择的图片, 自动生成 pdf, 包含页码和目录</li>
+    </ul>
+  </div>
+  <div class="desc">
+    <h2> 样例: </h2>
+    
+    <img src="样例.png">
+    <br>
+    <a href="implicit.pdf"> 生成的 pdf</a>
+  </div>
+
+  <div class="desc">
+    <h2> 图片文件名命名格式: </h2>
+    
+    <div>
+      图片文件名包含两部分
+      
+      <ul>
+        <li>文件顺序</li>
+        <li>目录信息</li>
+      </ul>
+      
+      例如:<b>文件排序1_1第一章.png</b> 就是个合格的文件名.
+      <br>
+
+      拆分开就是 <b>"文件排序1"</b>, <b>"1第一章"</b>两部分
+      <br>
+     
+      <hr>
+    </div>
+    
+    
+    <ul class="ul_ex">
+      <li>其中 <b>"文件排序1"</b> 部分为文件的排序, 生成 pdf 时会根据此部分的排序, 按顺序有小到大生成 pdf. </li>
+      <li>
+        <b>"1第一章"</b> 为目录信息, 代表此图片所在的 pdf 页, 需要生成一个 1级目录, 并跳转到此页面.
+        <br>
+
+        如果要生成一个 2 级目录, 就可以写为 <b>2第二节</b>, 此处只限制数字, 文字不做限制, 可以随意去写.</li>
+      
+      <li> 同一页码可以生成多个目录, 例如: 可以同时生成一个第一章, 第一节的目录, 跳转到该图片.
+        <br>
+        此时文件名就命名为<b>文件排序1_1第一章_2第一节.png</b>
+      </li>
+    </ul>
+  </div>
+  
+  
+  <form action="/pdf/uploads" method="post">
+    <input type="file" multiple>
+    <br>
+    <button type="submit">生成 pdf </button>
+  </form>
+
+<style type="text/css">
+  
+  .desc {
+    margin-bottom: 50px;
+  }
+  form {
+    border: 1px solid;
+    margin: 120px auto;
+    width: 600px;
+    height: 300px;
+  }
+
+  input, button {
+    margin: 30px;
+  }
+
+  .ul_ex li {
+    margin-bottom: 10px;
+  }
+  
+  img {
+    width: 400px;
+  }
+</style>
+</body>
+</html>

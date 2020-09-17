@@ -6,7 +6,7 @@ task :gen_pdf do
     font_families["msyh"] = { :normal => { :file => Rails.root.join('lib', 'tasks', 'msyh.ttf') }, :bold => { :file => Rails.root.join('lib', 'tasks', 'msyh.ttf') } }
     font("msyh")
 
-    stroke_axis
+    # stroke_axis
 
     # text 'Hello World'
 
@@ -84,7 +84,7 @@ task :gen_pdf do
               fit:      [size_x, size_y],
               position: :center, vposition: :center
 
-        stroke_bounds if i == 0
+        # stroke_bounds if i == 0
       end
 
 
