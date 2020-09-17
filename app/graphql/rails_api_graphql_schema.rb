@@ -1,8 +1,4 @@
 class RailsApiGraphqlSchema < GraphQL::Schema
-  mutation(Types::MutationType)
-  query(Types::QueryType)
-
-  # Opt in to the new runtime (default in future graphql-ruby versions)
   use GraphQL::Execution::Interpreter
   use GraphQL::Analysis::AST
 
@@ -10,12 +6,39 @@ class RailsApiGraphqlSchema < GraphQL::Schema
   use GraphQL::Pagination::Connections
   use GraphQL::Execution::Errors
 
-  rescue_from(ActiveRecord::RecordNotFound) do |err, obj, args, ctx, field|
-    raise GraphQL::ExecutionError, "#{field.type.unwrap.graphql_name} not found"
+  mutation(Types::MutationType)
+  query(Types::QueryType)
+
+  use GraphQL::Guard.new(policy_object: GraphqlPolicy)
+
+  def self.id_from_object(object, type_definition, _query_ctx)
+    GraphQL::Schema::UniqueWithinType.encode(type_definition.graphql_name, object.id)
   end
 
-  def self.type_error(type_err, context)
+  def self.object_from_id(id, _query_ctx)
+    type_name, item_id = GraphQL::Schema::UniqueWithinType.decode(id)
+    type_name.safe_constantize.find(item_id)
+  end
 
-    # Handle `type_err` in some way
+  def self.resolve_type(_type, obj, _ctx)
+    "Models::#{obj.class}Type".safe_constantize || raise("Unexpected object: #{obj}")
+  end
+
+  rescue_from(ActiveRecord::RecordNotFound) do |err, _obj, _args, _ctx, _field|
+    raise NotFoundError, [err.message, { model_name: err.model }]
+  end
+
+  rescue_from(ActiveRecord::RecordInvalid) do |err, _obj, _args, _ctx, _field|
+    raise NotValidError, err.message
+  end
+
+  rescue_from(GraphQL::Guard::NotAuthorizedError) do |err, obj, args, ctx, field|
+    options = if field.owner.name.start_with?('Types::')
+                { model_name: field.resolver }
+              else
+                { model_name: field.owner, field_name: field.name }
+              end
+
+    raise NotValidError, [err.message, options]
   end
 end

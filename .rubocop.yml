@@ -1,9 +1,10 @@
 AllCops:
+  NewCops: enable
   TargetRubyVersion: 2.6.3
   Exclude:
     - 'bin/**/*'
     - 'db/**/*'
-    - 'lib/tasks/cucumber.rake'
+    - 'lib/tasks/**/*'
     - 'features/**/*'
     - 'spec/**/*'
     - 'script/**/*'

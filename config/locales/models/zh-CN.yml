@@ -1,0 +1,20 @@
+zh-CN:
+  graphql:
+    user_sign_up: 用户注册
+    user_sign_in: 用户登录
+    user_current: 当前登录用户
+    post_create: 创建文章
+    post_update: 修改文章
+  activerecord:
+    models:
+      user: 用户
+      post: 文章
+    attributes:
+      user:
+        email: 邮件
+        passwd: 密码
+        nickname: 昵称
+        token: 登录密钥
+      post:
+        title: 标题
+        desc: 描述

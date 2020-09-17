@@ -1,5 +1,17 @@
-{
-  user(id: 1){
-    nickname
+# 登录
+mutation signIn($sign_in_input: UserSignInInput!) {
+  userSignIn(input: $sign_in_input) {
+    user {
+      id
+    }
+  }
+}
+
+# 注册
+mutation signUp($sign_up_input: UserSignUpInput!) {
+  userSignUp(input: $sign_up_input){
+    user {
+      id
+    }
   }
 }

@@ -1,7 +1,5 @@
 module Svc
-  # jwt
   module JwtSignature
-    # error
     class SignError < StandardError
     end
 
@@ -9,7 +7,7 @@ module Svc
 
     # rubocop:disable Style/RescueStandardError
     def verify!(token)
-      token.gsub!(/^Bearer /, '') if token.to_s.start_with?('Bearer ')
+      token = token.gsub(/^Bearer /, '') if token.to_s.start_with?('Bearer ')
       JWT.decode token, ENV['JWT_SECRET'], true, algorithm: 'HS256'
     rescue => e
       raise SignError, e.message
@@ -23,6 +21,7 @@ module Svc
     def refresh!(payload)
       sign(payload) if payload['exp'] - Time.current.to_i < GraphQL_API::JWT_REFRESH
     end
+
     # rubocop:enable Style/RescueStandardError
   end
 end
