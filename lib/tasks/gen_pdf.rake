@@ -91,7 +91,10 @@ task :gen_pdf do
       page_number = i + 1
       sections    = file.gsub('*', '').split('.')[0].split('_')[1..-1]
 
-      sections.each_with_index do |se, i|
+      sections.each do |se|
+        i  = se[0].to_i - 1
+        se = se[1..-1]
+
         if i == 0
           next if se.blank?
 
@@ -235,6 +238,7 @@ task :gen_pdf do
       at:    [bounds.right - 415, -5],
       width: 150,
       align: :right,
+      size:  10
     }
 
     # Gray page numbers from 8 on up
