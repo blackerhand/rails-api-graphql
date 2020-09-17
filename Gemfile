@@ -39,12 +39,24 @@ gem "graphiql-rails"
 gem "sprockets", '< 4'
 gem 'paper_trail', '~> 10.3'
 
+# whenever
+gem 'whenever', require: false
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
 group :development do
+  # deploy
+  gem "capistrano", "~> 3.14", require: false
+  gem "capistrano-rails", "~> 1.6", require: false
+  gem 'capistrano3-puma', github: "seuros/capistrano-puma"
+  gem 'capistrano-rvm'
+  # gem 'capistrano-sidekiq'
+  gem 'ed25519', '>= 1.2', '< 2.0'
+  gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0'
+
   gem 'listen', '~> 3.2'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
