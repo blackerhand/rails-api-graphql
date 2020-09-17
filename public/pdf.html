@@ -57,9 +57,8 @@
     </ul>
   </div>
   
-  
-  <form action="/pdf/uploads" method="post">
-    <input type="file" multiple>
+  <form action="/pdf/uploads" method="post" enctype="multipart/form-data">
+    <input type="file" multiple name="file[]">
     <br>
     <button type="submit">生成 pdf </button>
   </form>
@@ -69,6 +68,7 @@
   .desc {
     margin-bottom: 50px;
   }
+
   form {
     border: 1px solid;
     margin: 120px auto;
@@ -83,7 +83,7 @@
   .ul_ex li {
     margin-bottom: 10px;
   }
-  
+
   img {
     width: 400px;
   }
