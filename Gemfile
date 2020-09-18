@@ -35,8 +35,12 @@ gem 'figaro', '~> 1.2'
 gem 'graphql', '~> 1.11', require: true
 gem 'graphql-guard', '~> 2.0'
 
+# graphiql tools
 gem "graphiql-rails"
+gem 'graphql_playground_rails', '~> 0.1.1'
 gem "sprockets", '< 4'
+
+# version
 gem 'paper_trail', '~> 10.3'
 
 # whenever

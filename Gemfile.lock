@@ -106,6 +106,8 @@ GEM
     graphql (1.11.4)
     graphql-guard (2.0.0)
       graphql (>= 1.10.0, < 2)
+    graphql_playground_rails (0.1.1)
+      rails (~> 6.0.0, >= 6.0.0)
     i18n (1.8.5)
       concurrent-ruby (~> 1.0)
     jwt (2.2.2)
@@ -240,6 +242,7 @@ DEPENDENCIES
   graphiql-rails
   graphql (~> 1.11)
   graphql-guard (~> 2.0)
+  graphql_playground_rails (~> 0.1.1)
   jwt (~> 2.1)
   listen (~> 3.2)
   paper_trail (~> 10.3)
