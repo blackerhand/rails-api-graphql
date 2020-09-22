@@ -10,17 +10,63 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_10_071232) do
+ActiveRecord::Schema.define(version: 2020_09_22_034454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "collections", force: :cascade do |t|
+    t.string "name", comment: "名称"
+    t.text "desc", comment: "简介"
+    t.bigint "created_user_id", comment: "创建人 ID"
+    t.bigint "updated_user_id", comment: "修改人 ID"
+    t.datetime "disabled_at", comment: "删除时间"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "elements", force: :cascade do |t|
+    t.decimal "score", precision: 20, scale: 6, comment: "最终得分"
+    t.bigint "line_id"
+    t.bigint "post_id"
+    t.bigint "created_user_id", comment: "创建人 ID"
+    t.bigint "updated_user_id", comment: "修改人 ID"
+    t.datetime "disabled_at", comment: "删除时间"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "lines", force: :cascade do |t|
+    t.string "name", comment: "标题"
+    t.text "desc", comment: "说明"
+    t.bigint "collection_id"
+    t.bigint "created_user_id", comment: "创建人 ID"
+    t.bigint "updated_user_id", comment: "修改人 ID"
+    t.datetime "disabled_at", comment: "删除时间"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "marks", force: :cascade do |t|
+    t.string "desc", comment: "评分理由"
+    t.decimal "score", precision: 20, scale: 6, comment: "评分"
+    t.bigint "element_id"
+    t.bigint "created_user_id", comment: "创建人 ID"
+    t.bigint "updated_user_id", comment: "修改人 ID"
+    t.datetime "disabled_at", comment: "删除时间"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "posts", force: :cascade do |t|
-    t.string "title"
-    t.string "desc"
-    t.bigint "created_user_id"
-    t.bigint "updated_user_id"
-    t.datetime "disabled_at"
+    t.string "title", comment: "标题"
+    t.text "desc", comment: "说明"
+    t.bigint "collection_id"
+    t.integer "lines_count"
+    t.integer "state", comment: "状态"
+    t.bigint "created_user_id", comment: "创建人 ID"
+    t.bigint "updated_user_id", comment: "修改人 ID"
+    t.datetime "disabled_at", comment: "删除时间"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -30,9 +76,9 @@ ActiveRecord::Schema.define(version: 2020_09_10_071232) do
     t.string "nickname", limit: 20
     t.string "code", limit: 6
     t.string "password_digest"
-    t.bigint "created_user_id"
-    t.bigint "updated_user_id"
-    t.datetime "disabled_at"
+    t.bigint "created_user_id", comment: "创建人 ID"
+    t.bigint "updated_user_id", comment: "修改人 ID"
+    t.datetime "disabled_at", comment: "删除时间"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -1,13 +1,10 @@
-class CreatePosts < ActiveRecord::Migration[6.0]
+class CreateLines < ActiveRecord::Migration[6.0]
   def change
-    create_table :posts do |t|
-      t.string :title, comment: '标题'
+    create_table :lines do |t|
+      t.string :name, comment: '标题'
       t.text :desc, comment: '说明'
 
       t.bigint :collection_id
-      t.integer :lines_count
-
-      t.integer :state, comment: '状态'
 
       t.bigint :created_user_id, comment: '创建人 ID'
       t.bigint :updated_user_id, comment: '修改人 ID'
