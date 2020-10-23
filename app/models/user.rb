@@ -23,8 +23,6 @@
 # **`updated_at`**                  | `datetime`         | `not null`
 #
 class User < ApplicationRecord
-  include Disable
-
   has_secure_password
 
   has_many :posts, foreign_key: :created_user_id
