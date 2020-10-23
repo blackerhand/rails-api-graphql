@@ -1,12 +1,15 @@
 class GraphqlPolicy
+  include PolicyHelper
+
   RULES = {
     Types::QueryType    => {
-      userCurrent: ->(_obj, _args, ctx) { ctx[:current_user].present? },
-      userList:    ->(_obj, _args, ctx) { ctx[:current_user].present? }
+      userCurrent:    ->(_obj, args, ctx) { login_required!(args, ctx) },
+      userList:       ->(_obj, args, ctx) { login_required!(args, ctx) },
     },
     Types::MutationType => {
-      postCreate: ->(_obj, _args, ctx) { ctx[:current_user].present? },
-      postUpdate: ->(_obj, args, ctx) { args[:node].owner == ctx[:current_user] }
+      userSignIn:        ->(_obj, _args, _ctx) { true },
+      userSignUp:        ->(_obj, _args, _ctx) { true },
+      userUpdate:        ->(_obj, args, ctx) { login_required!(args, ctx) },
     },
     Models::UserType    => {
       token: ->(obj, _args, ctx) { obj.try(:object) == ctx[:current_user] }

@@ -10,4 +10,8 @@ module AuthHelper
 
     @current_user
   end
+
+  def required_login!
+    render(json: { errors: [{ message: 'please login', i18n_message: '请登录', code: 401 }] }, status: 401) if current_user.nil?
+  end
 end

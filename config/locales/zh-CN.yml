@@ -37,3 +37,10 @@ zh-CN:
       expected_value_to_not_be_null: 不能为空
       not_valid_error: "不允许访问%{field}"
       not_found_error: "查询不到对应的%{field}"
+      blob_not_exists: 不存在
+      blob_not_a_image: 文件格式不正确
+      already_disabled: 已删除, 不能再次删除
+      not_allow_disabled: 仅本人或管理员可以删除
+      must_be_logged_in: 请登录
+      elements_not_full: element id 不完整
+      not_a_valid_score_value: 请输入一个有效的分值

@@ -1,10 +1,11 @@
 class RailsApiGraphqlSchema < GraphQL::Schema
   use GraphQL::Execution::Interpreter
   use GraphQL::Analysis::AST
-
-  # Add built-in connections for pagination
   use GraphQL::Pagination::Connections
   use GraphQL::Execution::Errors
+  use GraphQL::Batch
+
+  # max_depth 10
 
   mutation(Types::MutationType)
   query(Types::QueryType)
@@ -32,7 +33,7 @@ class RailsApiGraphqlSchema < GraphQL::Schema
     raise NotValidError, err.message
   end
 
-  rescue_from(GraphQL::Guard::NotAuthorizedError) do |err, obj, args, ctx, field|
+  rescue_from(GraphQL::Guard::NotAuthorizedError) do |err, _obj, _args, _ctx, field|
     options = if field.owner.name.start_with?('Types::')
                 { model_name: field.resolver }
               else

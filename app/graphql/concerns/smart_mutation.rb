@@ -6,13 +6,14 @@ module SmartMutation
       mutation_name = field_name.to_s.gsub('/', '_')
       class_scope   = field_name.to_s.classify
 
-      mutation = opts.delete(:mutation) || "Mutations::#{class_scope}".constantize
-      input    = opts.delete(:input) || "Inputs::#{class_scope}".constantize
-      required = opts.delete(:required) || true
-      desc     = opts.delete(:desc) || I18n.t_smart(mutation)
+      input          = opts.delete(:input) || "Inputs::#{class_scope}".constantize
+      input_required = opts.delete(:input_required) || true
 
-      field mutation_name, mutation: mutation, description: desc do
-        argument :input, input, required: required
+      opts[:mutation]    ||= "Mutations::#{class_scope}".constantize
+      opts[:description] ||= I18n.t_smart(opts[:mutation])
+
+      field mutation_name, opts do
+        argument :input, input, required: input_required
       end
     end
   end
