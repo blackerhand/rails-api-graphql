@@ -12,10 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2020_09_10_071232) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "posts", force: :cascade do |t|
+  create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
     t.string "desc"
     t.bigint "created_user_id"
@@ -25,7 +22,7 @@ ActiveRecord::Schema.define(version: 2020_09_10_071232) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", limit: 100
     t.string "nickname", limit: 20
     t.string "code", limit: 6
@@ -37,14 +34,14 @@ ActiveRecord::Schema.define(version: 2020_09_10_071232) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "versions", force: :cascade do |t|
+  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "item_type", null: false
     t.bigint "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"
-    t.text "object"
+    t.text "object", size: :long
     t.datetime "created_at"
-    t.text "object_changes"
+    t.text "object_changes", size: :long
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 

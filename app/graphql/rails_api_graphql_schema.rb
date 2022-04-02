@@ -9,7 +9,7 @@ class RailsApiGraphqlSchema < GraphQL::Schema
   mutation(Types::MutationType)
   query(Types::QueryType)
 
-  use GraphQL::Guard.new(policy_object: GraphqlPolicy)
+  # use GraphQL::Guard.new(policy_object: GraphqlPolicy)
 
   def self.id_from_object(object, type_definition, _query_ctx)
     GraphQL::Schema::UniqueWithinType.encode(type_definition.graphql_name, object.id)

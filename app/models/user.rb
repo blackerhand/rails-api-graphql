@@ -10,7 +10,7 @@
 # **`email`**            | `string(100)`      |
 # **`nickname`**         | `string(20)`       |
 # **`code`**             | `string(6)`        |
-# **`password_digest`**  | `string`           |
+# **`password_digest`**  | `string(255)`      |
 # **`created_user_id`**  | `bigint`           |
 # **`updated_user_id`**  | `bigint`           |
 # **`disabled_at`**      | `datetime`         |

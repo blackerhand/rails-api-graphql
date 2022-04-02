@@ -7,8 +7,8 @@
 # Name                   | Type               | Attributes
 # ---------------------- | ------------------ | ---------------------------
 # **`id`**               | `bigint`           | `not null, primary key`
-# **`title`**            | `string`           |
-# **`desc`**             | `string`           |
+# **`title`**            | `string(255)`      |
+# **`desc`**             | `string(255)`      |
 # **`created_user_id`**  | `bigint`           |
 # **`updated_user_id`**  | `bigint`           |
 # **`disabled_at`**      | `datetime`         |
