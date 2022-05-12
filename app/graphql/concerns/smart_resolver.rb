@@ -4,10 +4,11 @@ module SmartResolver
   module ClassMethods
     def smart_resolver(field_name, opts = {})
       resolver_name = field_name.to_s.gsub('/', '_')
-      resolver      = opts.delete(:resolver) || "Resolvers::#{field_name.to_s.classify}".constantize
-      desc          = opts.delete(:desc) || I18n.t_smart(resolver)
 
-      field resolver_name, resolver: resolver, description: desc
+      opts[:resolver]    ||= "Resolvers::#{field_name.to_s.camelize}".constantize
+      opts[:description] ||= I18n.t_smart(opts[:resolver])
+
+      field resolver_name, opts
     end
   end
 end

@@ -4,7 +4,7 @@ module Resolvers
       type [Models::UserType], null: false
 
       def resolve
-        ::User.all
+        ::User.enabled
       end
     end
   end

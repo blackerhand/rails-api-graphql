@@ -6,5 +6,6 @@ module Models
     field :email, String, null: false
     field :nickname, String, null: false
     field :token, String, null: false
+    field :avatar_url, String, null: false
   end
 end

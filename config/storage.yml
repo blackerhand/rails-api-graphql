@@ -6,6 +6,24 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
+aliyun:
+  service: Aliyun
+  access_key_id: <%= ENV['OSS_ID'] %>
+  access_key_secret: <%= ENV['OSS_SECRET'] %>
+  bucket: <%= ENV['BUCKET_NAME'] %>
+  endpoint: <%= ENV['OSS_ENDPOINT'] %>
+  path: "/"
+  public: true
+
+#aliyun_avatar:
+#  service: Aliyun
+#  access_key_id: <%#= ENV['OSS_ID'] %>
+#  access_key_secret: <%#= ENV['OSS_SECRET'] %>
+#  bucket: <%#= ENV['BUCKET_NAME'] %>
+#  endpoint: <%#= ENV['OSS_ENDPOINT'] %>
+#  path: "/avatar"
+#  public: true
+
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3

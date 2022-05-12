@@ -55,13 +55,15 @@ end
 class I18nMessage < GraphQL::ExecutionError
   def initialize(message, ast_node: nil, options: nil, extensions: nil)
     if message.is_a?(Array)
-      @other_message = message[1].dup
+      @other_message = message[1]
 
-      @field_name = message[1].delete(:field_name).try(:to_s)
-      @model_name = message[1].delete(:model_name).try(:to_s)
-      @format     = message[1].delete(:format) || default_format
+      @field_name = @other_message[:field_name].try(:to_s)
+      @model_name = @other_message[:model_name].try(:to_s)
+      @format     = @other_message[:format] || default_format
 
       message = message[0]
+    else
+      @format = message.to_s || default_format
     end
 
     super
@@ -69,6 +71,12 @@ class I18nMessage < GraphQL::ExecutionError
 end
 
 class UnauthorizedError < I18nMessage
+  def code
+    401
+  end
+end
+
+class RecordAlreadyDisabled < I18nMessage
   def code
     401
   end
@@ -90,7 +98,7 @@ end
 
 class NotValidError < I18nMessage
   def code
-    404
+    401
   end
 end
 
@@ -103,6 +111,12 @@ end
 class OtherError < I18nMessage
   def code
     422
+  end
+end
+
+class ServerError < I18nMessage
+  def code
+    500
   end
 end
 
