@@ -34,7 +34,7 @@ gem 'rack-cors'
 gem 'figaro', '~> 1.2'
 
 # GraphQL
-gem 'graphql', '~> 1.11', require: true
+gem 'graphql', '1.11.4', require: true
 gem 'graphql-guard', '~> 2.0'
 gem 'graphql-batch', '~> 0.4.3'
 
