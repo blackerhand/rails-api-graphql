@@ -1,7 +1,7 @@
 module Inputs
-  module User
+  module Users
     class Update < Types::BaseInputObject
-      argument :passwd, String, required: false
+      argument :password, String, required: false
       argument :nickname, String, required: false
       argument :avatar, Types::BlobImage, required: false
     end

@@ -3,13 +3,13 @@ class GraphqlPolicy
 
   RULES = {
     Types::QueryType    => {
-      userCurrent:    ->(_obj, args, ctx) { login_required!(args, ctx) },
-      userList:       ->(_obj, args, ctx) { login_required!(args, ctx) },
+      usersCurrent:    ->(_obj, args, ctx) { login_required!(args, ctx) },
+      usersList:       ->(_obj, args, ctx) { login_required!(args, ctx) },
     },
     Types::MutationType => {
-      userSignIn:        ->(_obj, _args, _ctx) { true },
-      userSignUp:        ->(_obj, _args, _ctx) { true },
-      userUpdate:        ->(_obj, args, ctx) { login_required!(args, ctx) },
+      usersSignIn:        ->(_obj, _args, _ctx) { true },
+      usersSignUp:        ->(_obj, _args, _ctx) { true },
+      usersUpdate:        ->(_obj, args, ctx) { login_required!(args, ctx) },
     },
     Models::UserType    => {
       token: ->(obj, _args, ctx) { obj.try(:object) == ctx[:current_user] }

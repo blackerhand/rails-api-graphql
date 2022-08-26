@@ -1,5 +1,5 @@
 module Resolvers
-  module User
+  module Users
     class List < Resolvers::Base
       type [Models::UserType], null: false
 

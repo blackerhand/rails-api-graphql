@@ -3,7 +3,8 @@ module Types
     include SmartMutation
 
     # users
-    smart_mutation :'user/sign_in'
-    smart_mutation :'user/sign_up'
+    smart_mutation :'users/sign_in'
+    smart_mutation :'users/sign_up'
+    smart_mutation :'users/update'
   end
 end

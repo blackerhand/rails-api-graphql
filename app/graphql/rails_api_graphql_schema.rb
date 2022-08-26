@@ -5,12 +5,12 @@ class RailsApiGraphqlSchema < GraphQL::Schema
   use GraphQL::Execution::Errors
   use GraphQL::Batch
 
-  # max_depth 10
+  max_depth 10
 
   mutation(Types::MutationType)
   query(Types::QueryType)
 
-  # use GraphQL::Guard.new(policy_object: GraphqlPolicy)
+  use GraphQL::Guard.new(policy_object: GraphqlPolicy)
 
   def self.id_from_object(object, type_definition, _query_ctx)
     GraphQL::Schema::UniqueWithinType.encode(type_definition.graphql_name, object.id)

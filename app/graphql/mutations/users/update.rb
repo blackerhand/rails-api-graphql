@@ -1,13 +1,13 @@
 module Mutations
-  module User
-    class SignUp < BaseMutation
+  module Users
+    class Update < BaseMutation
       null true
 
       field :user, Models::UserType, null: true
 
       def resolve(params, *_opts)
-        @user = ::User.create!(params)
-        { user: @user }
+        context[:current_user].update!(params)
+        { user: context[:current_user] }
       end
     end
   end

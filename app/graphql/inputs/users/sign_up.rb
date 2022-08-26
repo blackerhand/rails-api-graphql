@@ -1,5 +1,5 @@
 module Inputs
-  module User
+  module Users
     class SignUp < Types::BaseInputObject
       argument :email, String, required: true
       argument :password, String, required: true

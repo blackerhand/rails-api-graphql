@@ -12,7 +12,7 @@ zh-CN:
     attributes:
       user:
         email: 邮件
-        passwd: 密码
+        password: 密码
         nickname: 昵称
         token: 登录密钥
       post:

@@ -1,5 +1,5 @@
 module Resolvers
-  module User
+  module Users
     class Current < Resolvers::Base
       type Models::UserType, null: false
 
